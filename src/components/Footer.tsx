@@ -1,5 +1,5 @@
 import { Button } from '@mui/material'
-import React from 'react'
+
 import { useQuestionsStore } from '../store/questionsStore';
 import useQuestionsData from '../hooks/useQuestionsData';
 
