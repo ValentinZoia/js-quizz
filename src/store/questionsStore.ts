@@ -1,6 +1,7 @@
 import {create} from "zustand";
 import {type Question} from "../types/types";
 import confetti from 'canvas-confetti'
+import { persist } from "zustand/middleware";
 
 
 interface State  {
@@ -8,10 +9,13 @@ interface State  {
     currentQuestion: number,
     fetchQuestions: (limit: number ) => void
     selectAnswer: (questionId: number, answerIndex: number) => void
+    goNextQuestion: () => void
+    goPreviousQuestion: () => void
+    reset:()=> void
 }
 
 
-export const useQuestionsStore = create<State>((set, get) => ({
+export const useQuestionsStore = create<State>()(persist((set, get) => ({
     questions: [],
     currentQuestion:0,
     fetchQuestions: async (limit: number) => {
@@ -24,7 +28,7 @@ export const useQuestionsStore = create<State>((set, get) => ({
     },
     selectAnswer: (questionId: number, answerIndex: number) => {
         const {questions} = get();
-        console.log(questionId, answerIndex);
+        
         //usar el structuredClone para crear el objeto
         const newQuestions = structuredClone(questions);
 
@@ -40,6 +44,7 @@ export const useQuestionsStore = create<State>((set, get) => ({
         
         //lanzar confetti si es correcta
         if(isCorrectUserAnswer) confetti();
+        
 
         //cambiar esta info en la copia de la pregunta
         newQuestions[index] ={
@@ -49,9 +54,26 @@ export const useQuestionsStore = create<State>((set, get) => ({
         };
         //actualiza el estado
         set({questions: newQuestions});
+    },
+    goNextQuestion:()=>{
+        const {currentQuestion, questions} = get();
+        const nextQuestion = currentQuestion + 1;
+
+        if(nextQuestion < questions.length){
+            set({currentQuestion: nextQuestion});
         }
+    },
+    goPreviousQuestion:()=>{
+        const {currentQuestion} = get();
+        if(currentQuestion > 0){
+            set({currentQuestion: currentQuestion - 1});
+        }
+    },
+    reset:()=>{
+        set({currentQuestion:0, questions:[]})
+    }
 
         
         
     }
-));
+),{name: "questions"}));

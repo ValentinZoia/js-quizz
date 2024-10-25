@@ -4,6 +4,7 @@ import {
   Card,
   CardContent,
   Divider,
+  IconButton,
   List,
   ListItem,
   ListItemButton,
@@ -14,14 +15,15 @@ import {
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { atomOneDark } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import HeaderMac from "./HeaderMac";
+import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
+import Footer from "./Footer";
 
 const getBackgroundColor = (info: QuestionType, index: number) => {
   const { userSelectedAnswer, correctAnswer } = info;
-    console.log(index, correctAnswer, userSelectedAnswer)
+
   if (userSelectedAnswer == null) return "transparent";
 
-  if (index !== correctAnswer && userSelectedAnswer === index)
-    return "red";
+  if (index !== correctAnswer && userSelectedAnswer === index) return "red";
 
   if (index === correctAnswer) return "green";
 
@@ -35,7 +37,7 @@ const Question = ({ info }: { info: QuestionType }) => {
   const handleClick = (questionId: number, answerIndex: number) => {
     selectAnswer(questionId, answerIndex);
   };
-  console.log(info.userSelectedAnswer)
+ 
   return (
     <>
       <Card
@@ -82,12 +84,16 @@ const Question = ({ info }: { info: QuestionType }) => {
                 divider
                 sx={{ bgcolor: getBackgroundColor(info, index) }}
               >
-                <ListItemButton onClick={() => handleClick(info.id, index)} disabled={info.userSelectedAnswer !== undefined}>
+                <ListItemButton
+                  onClick={() => handleClick(info.id, index)}
+                  disabled={info.userSelectedAnswer !== undefined}
+                >
                   <ListItemText primary={answer} sx={{ textAlign: "center" }} />
                 </ListItemButton>
               </ListItem>
             ))}
           </List>
+          
         </CardContent>
       </Card>
     </>
@@ -97,12 +103,32 @@ const Question = ({ info }: { info: QuestionType }) => {
 export default function Game() {
   const questions = useQuestionsStore((state) => state.questions);
   const currentQuestion = useQuestionsStore((state) => state.currentQuestion);
+  const goNextQuestion = useQuestionsStore((state) => state.goNextQuestion);
+  const goPreviousQuestion = useQuestionsStore(
+    (state) => state.goPreviousQuestion
+  );
 
   const questionInfo = questions[currentQuestion];
 
   return (
     <>
+      <Stack
+        direction={"row"}
+        gap={2}
+        alignItems={"center"}
+        justifyContent={"center"}
+      >
+        <IconButton aria-label="previous" onClick={goPreviousQuestion} disabled={currentQuestion === 0}>
+          <ArrowBackIos />
+        </IconButton>
+        {currentQuestion + 1}/{questions.length}
+        <IconButton aria-label="next" onClick={goNextQuestion} disabled={currentQuestion + 1 === questions.length}>
+          <ArrowForwardIos />
+        </IconButton>
+      </Stack>
+
       <Question info={questionInfo} />
+      <Footer />
     </>
   );
 }
