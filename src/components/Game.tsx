@@ -15,7 +15,7 @@ import {
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { atomOneDark } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import HeaderMac from "./HeaderMac";
-import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
+import {ArrowForwardIos, ArrowBackIosNew } from "@mui/icons-material";
 import Footer from "./Footer";
 
 const getBackgroundColor = (info: QuestionType, index: number) => {
@@ -119,7 +119,7 @@ export default function Game() {
         justifyContent={"center"}
       >
         <IconButton aria-label="previous" onClick={goPreviousQuestion} disabled={currentQuestion === 0}>
-          <ArrowBackIos />
+          <ArrowBackIosNew />
         </IconButton>
         {currentQuestion + 1}/{questions.length}
         <IconButton aria-label="next" onClick={goNextQuestion} disabled={currentQuestion + 1 === questions.length}>
