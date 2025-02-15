@@ -19,7 +19,9 @@ export const useQuestionsStore = create<State>()(persist((set, get) => ({
     questions: [],
     currentQuestion:0,
     fetchQuestions: async (limit: number) => {
+        console.log(`${baseUrl}/data.json`);
         const response = await fetch(`${baseUrl}/data.json`);
+        
         const data = await response.json();
         
         const questions = data.sort(() => Math.random() - 0.5).slice(0, limit);
