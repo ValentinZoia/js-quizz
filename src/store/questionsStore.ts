@@ -2,7 +2,7 @@ import {create} from "zustand";
 import {type Question} from "../types/types";
 import confetti from 'canvas-confetti'
 import { persist } from "zustand/middleware";
-
+const baseUrl = process.env.BASE_URL;
 
 interface State  {
     questions: Question[],
@@ -19,7 +19,7 @@ export const useQuestionsStore = create<State>()(persist((set, get) => ({
     questions: [],
     currentQuestion:0,
     fetchQuestions: async (limit: number) => {
-        const response = await fetch(`http://localhost:5173/data.json`);
+        const response = await fetch(`${baseUrl}/data.json`);
         const data = await response.json();
         
         const questions = data.sort(() => Math.random() - 0.5).slice(0, limit);
