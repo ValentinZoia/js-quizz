@@ -9,3 +9,5 @@
 
 </div>
 <br>
+<img src='./src/assets/js-q-1.png' />
+<img src='./src/assets/js-q-2.png' />
