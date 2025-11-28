@@ -1,0 +1,11 @@
+{
+  "title": "JS QUIZZ",
+  "description": "Quizz interactivo para evaluar conocimientos de JavaScript. Construido con Vite, React, Zustand y Tailwind.",
+  "preview": "src/assets/js-q-1.png",
+  "screenshots": [
+    "src/assets/js-q-1.png",
+    "src/assets/js-q-2.png"
+  ],
+  "tags": ["javascript", "react", "vite", "zustand", "tailwind"],
+  "published": true
+} 
